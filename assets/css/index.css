@@ -19,8 +19,8 @@ header>img {
     width: 6em;
     height: 6em;
     border-radius: 100%;
-    border: 2px solid red;
-    box-shadow: red 0px 2px 80px 0px;
+    border: 2px solid rgb(23, 47, 185);
+    box-shadow: rgb(23, 47, 185) 0px 2px 80px 0px;
 }
 
 header {
@@ -33,7 +33,7 @@ header {
 }
 
 header>h1 {
-    color: firebrick;
+    color: rgb(23, 47, 185);
     font-family: sans-serif;
     display: inline-block;
     font-size: 0.8em;
