@@ -1,0 +1,11 @@
+{
+  "name": "joey-web",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joey Cadieux DEV",
+  "license": "ISC",
+  "description": ""
+}
