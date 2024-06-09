@@ -1,0 +1,45 @@
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    text-align: center;
+    font-family: sans-serif;
+    color: black;
+    font-size: 20px;
+}
+
+.typewriter-text {
+    display: inline-block;
+    border-right: .15em solid rgb(16, 51, 117);
+    padding-right: 10px;
+}
+
+.typewriter-text::after {
+    content: '|';
+    display: inline-block;
+    vertical-align: bottom;
+    animation: blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        color: transparent;
+    }
+
+    50% {
+        color: black;
+    }
+}
