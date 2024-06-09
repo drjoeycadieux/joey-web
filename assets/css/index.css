@@ -52,7 +52,7 @@ ul {
 }
 
 ul>li {
-    background-color: #fffa;
+    background-color: rgba(255, 255, 255, 0.507);
     --webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
     border-radius: 10em;
     padding: 1em;
@@ -61,6 +61,7 @@ ul>li {
 
 ul>li>a {
     display: flex;
+    font-size: 1em;
     flex-direction: row;
     justify-content: center;
     align-items: center;
