@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             text.innerText += textContent.charAt(i);
             setTimeout(function () {
                 typeWriter(text, i + 1);
-            }, 100); // Adjust typing speed here
+            }, 75); // Adjust typing speed here
         }
     }
 
