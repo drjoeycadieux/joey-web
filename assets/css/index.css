@@ -2,25 +2,37 @@ body,
 html {
     padding: 0;
     margin: 0;
-    /* background-color: rgb(17, 32, 71); */
     color: white;
+    overflow-x: hidden;
 }
 
 main {
     position: relative;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
 }
 
 body {
     background: url('/assets/img/logomain.jpg') repeat center center fixed;
     background-size: cover;
+    background-attachment: scroll;
+    /* Better for mobile */
+}
+
+/* Desktop background attachment */
+@media (min-width: 768px) {
+    body {
+        background-attachment: fixed;
+    }
 }
 
 header>img {
-    width: 6em;
-    height: 6em;
+    width: 5em;
+    height: 5em;
     border-radius: 100%;
     border: 2px solid rgb(23, 47, 185);
-    box-shadow: rgb(23, 47, 185) 0px 2px 80px 0px;
+    box-shadow: rgb(23, 47, 185) 0px 2px 40px 0px;
 }
 
 header {
@@ -29,43 +41,90 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1.6em;
+    padding: 1em;
 }
 
 header>h1 {
     color: rgb(23, 47, 185);
     font-family: sans-serif;
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: bold;
     border-radius: 1em;
     background-color: lightgray;
-    padding: 0.6em;
+    padding: 0.5em 0.8em;
     border: 1px solid #fffa;
+    margin-top: 0.8em;
+}
+
+/* Desktop styles for header */
+@media (min-width: 768px) {
+    header>img {
+        width: 6em;
+        height: 6em;
+        box-shadow: rgb(23, 47, 185) 0px 2px 80px 0px;
+    }
+
+    header {
+        padding: 1.6em;
+    }
+
+    header>h1 {
+        font-size: 0.8em;
+        padding: 0.6em;
+    }
 }
 
 ul {
     box-sizing: border-box;
     list-style: none;
     margin: 0 auto;
-    padding: 3em;
+    padding: 1em;
+    max-width: 400px;
+    width: 90%;
 }
 
 ul>li {
     background-color: rgba(255, 255, 255, 0.507);
-    --webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
+    backdrop-filter: blur(10px) saturate(160%) contrast(180%);
     border-radius: 10em;
-    padding: 1em;
-    margin: 1.4em 0;
+    padding: 0.8em;
+    margin: 1em 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+ul>li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 ul>li>a {
     display: flex;
-    font-size: 1em;
+    font-size: 0.9em;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1.5em;
+    gap: 1em;
+    padding: 0.2em 0;
+}
+
+/* Desktop styles for links */
+@media (min-width: 768px) {
+    ul {
+        padding: 2em;
+        max-width: 500px;
+    }
+
+    ul>li {
+        padding: 1em;
+        margin: 1.4em 0;
+    }
+
+    ul>li>a {
+        font-size: 1em;
+        gap: 1.5em;
+    }
 }
 
 a {
@@ -73,8 +132,46 @@ a {
     text-decoration: none;
     font-family: sans-serif;
     font-weight: bold;
+    transition: all 0.2s ease;
 }
 
 a:hover {
     text-decoration: underline;
+    color: #333;
+}
+
+/* Responsive typography */
+@media (max-width: 479px) {
+    body {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    body {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+/* Ensure content doesn't overflow on small screens */
+@media (max-width: 479px) {
+    main {
+        padding: 0 0.5em;
+    }
+
+    .typewriter {
+        white-space: normal;
+        overflow: visible;
+        line-height: 1.4;
+    }
+
+    .typewriter-text {
+        white-space: normal;
+    }
 }

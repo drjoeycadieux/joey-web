@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(function () {
                 typeWriter(text, i + 1);
             }, 75); // Adjust typing speed here
+        } else {
+            // After finishing typing, wait 2 seconds then restart
+            setTimeout(function () {
+                text.innerText = '';
+                typeWriter(text, 0);
+            }, 2000); // Wait 2 seconds before restarting
         }
     }
 
