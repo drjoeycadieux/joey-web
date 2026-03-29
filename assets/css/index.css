@@ -99,6 +99,54 @@ ul>li:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* HackTheBox branded button */
+ul>li.hackthebox-btn {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.4) 0%, rgba(56, 142, 60, 0.3) 100%), url('../img/logo1.png') no-repeat center left 1em/45px 45px;
+    background-attachment: scroll, scroll;
+    border: 2px solid rgba(76, 175, 80, 0.6);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+    padding-left: 4em !important;
+}
+
+ul>li.hackthebox-btn:hover {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.6) 0%, rgba(56, 142, 60, 0.5) 100%), url('../img/logo1.png') no-repeat center left 1em/45px 45px;
+    background-attachment: scroll, scroll;
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.7), 0 4px 15px rgba(76, 175, 80, 0.3);
+    transform: translateY(-3px);
+}
+
+ul>li.hackthebox-btn a {
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* TryHackMe branded button */
+ul>li.tryhackme-btn {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.4) 0%, rgba(108, 52, 131, 0.3) 100%), url('../img/images.png') no-repeat center left 1em/45px 45px;
+    background-attachment: scroll, scroll;
+    border: 2px solid rgba(155, 89, 182, 0.6);
+    box-shadow: 0 0 20px rgba(155, 89, 182, 0.4);
+    padding-left: 4em !important;
+}
+
+ul>li.tryhackme-btn:hover {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.6) 0%, rgba(108, 52, 131, 0.5) 100%), url('../img/images.png') no-repeat center left 1em/45px 45px;
+    background-attachment: scroll, scroll;
+    box-shadow: 0 0 30px rgba(155, 89, 182, 0.7), 0 4px 15px rgba(155, 89, 182, 0.3);
+    transform: translateY(-3px);
+}
+
+ul>li.tryhackme-btn a {
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 ul>li>a {
     display: flex;
     font-size: 0.9em;
