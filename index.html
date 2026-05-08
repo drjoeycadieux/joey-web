@@ -1,41 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Joey Cadieux - Offensive Security Professional specializing in Penetration Testing and Red Teaming.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="/assets/css/index.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="shortcut icon" href="./assets/img/joeylogo.jpg" type="image/jpg">
-    <title>Joey Cadieux</title>
+    <title>Joey Cadieux | Offensive Security Specialist</title>
+    
+    <style>
+        /* Side Design CSS Integration */
+        .side-design {
+            position: fixed;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.12;
+            z-index: 1;
+        }
+
+        .left-node {
+            left: 0;
+            border-right: 1px solid #00ff41;
+            background-image: radial-gradient(#00ff41 1px, transparent 1px);
+            background-size: 15px 15px;
+        }
+
+        .right-node {
+            right: 0;
+            border-left: 1px solid #00ff41;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 19px,
+                rgba(0, 255, 65, 0.2) 20px
+            );
+        }
+
+        /* The Scanning Pulse Effect */
+        .side-design::after {
+            content: "";
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, #00ff41, transparent);
+            animation: scan-node 5s linear infinite;
+        }
+
+        @keyframes scan-node {
+            0% { top: -120px; }
+            100% { top: 100%; }
+        }
+
+        @media (max-width: 1100px) {
+            .side-design { display: none; }
+        }
+    </style>
 </head>
-
 <body>
-    <main>
-        <header>
-            <img src="./assets/img/joeylogo.jpg">
-            <h1>
-                Joey Cadieux
-            </h1>
-        </header>
+    <div class="side-design left-node" aria-hidden="true"></div>
+    <div class="side-design right-node" aria-hidden="true"></div>
 
-        <div class="typewriter">
-            <h1 class="typewriter-text">Programmer, Security Hacker, Software Developer & Consultant.</h1>
-        </div>
+    <main class="portal-page">
+        <div class="ambient ambient-one" aria-hidden="true"></div>
+        <div class="ambient ambient-two" aria-hidden="true"></div>
 
-        <ul>
-            <li><a target="_blank" href="https://ca.linkedin.com/in/joey-cadieux-5671251a2">Linkedin</a></li>
-            <li><a target="_blank"
-                    href="https://www.facebook.com/profile.php?id=100084066996866&mibextid=ZbWKwL">Facebook</a></li>
-            <li><a target="_blank" href="https://x.com/drjoeycadieux">X</a></li>
-            <li><a target="_blank" href="https://github.com/drjoeycadieux">Github</a></li>
-            <li><a target="_blank" href="mailto:joeycadieux161@gmail.com&subject=Joey Cadieux Website">Email</a></li>
-            <li class="hackthebox-btn"><a target="_blank" href="https://app.hackthebox.com/public/users/627953" rel="noopener noreferrer">HackTheBox</a></li>
-            <li class="tryhackme-btn"><a target="_blank" href="https://tryhackme.com/p/drjoeycadieux" rel="noopener noreferrer">TryHackMe</a></li>
-        </ul>
+        <aside class="availability-banner" aria-label="Availability notice">
+            <span class="availability-pill">Status: Online</span>
+            <p>Available for immediate security assessment engagements.</p>
+        </aside>
+
+        <section class="portal-card">
+            <header class="hero">
+                <p class="eyebrow">Terminal Access Node // QC.CA</p>
+                <img src="./assets/img/joeylogo.jpg" alt="Joey Cadieux - Professional Logo">
+                <h1>Joey Cadieux</h1>
+                <div class="typewriter">
+                    <h2 class="typewriter-text">Penetration Tester • Red Team Operator • Security Researcher</h2>
+                </div>
+            </header>
+
+            <article class="service-details">
+                <div class="rate-card">
+                    <span class="label">Consultation Rate</span>
+                    <span class="price">$40.00 / hr</span>
+                </div>
+                <p class="intro">
+                    Specializing in identifying vulnerabilities before they are exploited. Providing high-fidelity reporting and tactical security insights.
+                </p>
+            </article>
+
+            <nav aria-label="Professional Nodes">
+                <ul class="social-links">
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://ca.linkedin.com/in/joey-cadieux-5671251a2"><span>LinkedIn</span><strong>Professional Network</strong></a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/drjoeycadieux"><span>GitHub</span><strong>Exploit Research & Code</strong></a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://app.hackthebox.com/public/users/627953"><span>Hack The Box</span><strong>Verified Labs</strong></a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://tryhackme.com/p/drjoeycadieux"><span>TryHackMe</span><strong>Skill Proofs</strong></a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://x.com/drjoeycadieux"><span>X / Twitter</span><strong>Industry Intelligence</strong></a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="mailto:joeycadieux161@gmail.com?subject=Inquiry: Security Consultation"><span>Email</span><strong>Secure Channel</strong></a></li>
+                </ul>
+            </nav>
+        </section>
     </main>
-
     <script src="/assets/js/index.js"></script>
 </body>
-
 </html>

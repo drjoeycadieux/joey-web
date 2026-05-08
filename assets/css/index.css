@@ -1,225 +1,208 @@
-body,
-html {
-    padding: 0;
-    margin: 0;
-    color: white;
-    overflow-x: hidden;
+/* --- Root Variables & Reset --- */
+:root {
+    --bg-dark: #0a0a0b;
+    --card-bg: #141416;
+    --accent-green: #00ff41; /* Classic terminal green */
+    --text-main: #e4e4e7;
+    --text-dim: #a1a1aa;
+    --border-color: #27272a;
 }
 
-main {
-    position: relative;
-    min-height: 100vh;
-    width: 100%;
-    max-width: 100vw;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: url('/assets/img/logomain.jpg') repeat center center fixed;
-    background-size: cover;
-    background-attachment: scroll;
-    /* Better for mobile */
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* Desktop background attachment */
-@media (min-width: 768px) {
-    body {
-        background-attachment: fixed;
-    }
-}
-
-header>img {
-    width: 5em;
-    height: 5em;
-    border-radius: 100%;
-    border: 2px solid rgb(23, 47, 185);
-    box-shadow: rgb(23, 47, 185) 0px 2px 40px 0px;
-}
-
-header {
-    margin-top: 1em;
-    text-align: center;
+/* --- Layout --- */
+.portal-page {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
 }
 
-header>h1 {
-    color: rgb(23, 47, 185);
-    font-family: sans-serif;
+.portal-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    position: relative;
+}
+
+/* --- Professional Header --- */
+.hero {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.hero img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-green);
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.typewriter-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+/* --- Rate Card Section --- */
+.service-details {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.rate-card {
     display: inline-block;
-    font-size: 0.7em;
-    font-weight: bold;
-    border-radius: 1em;
-    background-color: lightgray;
-    padding: 0.5em 0.8em;
-    border: 1px solid #fffa;
-    margin-top: 0.8em;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px dashed var(--accent-green);
+    padding: 15px 30px;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-/* Desktop styles for header */
-@media (min-width: 768px) {
-    header>img {
-        width: 6em;
-        height: 6em;
-        box-shadow: rgb(23, 47, 185) 0px 2px 80px 0px;
-    }
-
-    header {
-        padding: 1.6em;
-    }
-
-    header>h1 {
-        font-size: 0.8em;
-        padding: 0.6em;
-    }
+.rate-card .label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-green);
+    text-transform: uppercase;
 }
 
-ul {
-    box-sizing: border-box;
+.rate-card .price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.intro {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+}
+
+/* --- Navigation Links --- */
+.social-links {
     list-style: none;
-    margin: 0 auto;
-    padding: 1em;
-    max-width: 400px;
-    width: 90%;
+    display: grid;
+    gap: 12px;
 }
 
-ul>li {
-    background-color: rgba(255, 255, 255, 0.507);
-    -webkit-backdrop-filter: blur(10px) saturate(160%) contrast(180%);
-    backdrop-filter: blur(10px) saturate(160%) contrast(180%);
-    border-radius: 10em;
-    padding: 0.8em;
-    margin: 1em 0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-ul>li:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* HackTheBox branded button */
-ul>li.hackthebox-btn {
-    background: linear-gradient(135deg, rgba(76, 175, 80, 0.4) 0%, rgba(56, 142, 60, 0.3) 100%), url('../img/logo1.png') no-repeat center left 1em/45px 45px;
-    background-attachment: scroll, scroll;
-    border: 2px solid rgba(76, 175, 80, 0.6);
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
-    padding-left: 4em !important;
-}
-
-ul>li.hackthebox-btn:hover {
-    background: linear-gradient(135deg, rgba(76, 175, 80, 0.6) 0%, rgba(56, 142, 60, 0.5) 100%), url('../img/logo1.png') no-repeat center left 1em/45px 45px;
-    background-attachment: scroll, scroll;
-    box-shadow: 0 0 30px rgba(76, 175, 80, 0.7), 0 4px 15px rgba(76, 175, 80, 0.3);
-    transform: translateY(-3px);
-}
-
-ul>li.hackthebox-btn a {
-    font-weight: bold;
-    color: #fff;
+.social-links li a {
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* TryHackMe branded button */
-ul>li.tryhackme-btn {
-    background: linear-gradient(135deg, rgba(155, 89, 182, 0.4) 0%, rgba(108, 52, 131, 0.3) 100%), url('../img/images.png') no-repeat center left 1em/45px 45px;
-    background-attachment: scroll, scroll;
-    border: 2px solid rgba(155, 89, 182, 0.6);
-    box-shadow: 0 0 20px rgba(155, 89, 182, 0.4);
-    padding-left: 4em !important;
-}
-
-ul>li.tryhackme-btn:hover {
-    background: linear-gradient(135deg, rgba(155, 89, 182, 0.6) 0%, rgba(108, 52, 131, 0.5) 100%), url('../img/images.png') no-repeat center left 1em/45px 45px;
-    background-attachment: scroll, scroll;
-    box-shadow: 0 0 30px rgba(155, 89, 182, 0.7), 0 4px 15px rgba(155, 89, 182, 0.3);
-    transform: translateY(-3px);
-}
-
-ul>li.tryhackme-btn a {
-    font-weight: bold;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-ul>li>a {
-    display: flex;
-    font-size: 0.9em;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-    padding: 0.2em 0;
-}
-
-/* Desktop styles for links */
-@media (min-width: 768px) {
-    ul {
-        padding: 2em;
-        max-width: 500px;
-    }
-
-    ul>li {
-        padding: 1em;
-        margin: 1.4em 0;
-    }
-
-    ul>li>a {
-        font-size: 1em;
-        gap: 1.5em;
-    }
-}
-
-a {
-    color: black;
+    flex-direction: column;
     text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    padding: 15px;
+    background: #1c1c1f;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-a:hover {
-    text-decoration: underline;
-    color: #333;
+.social-links li a span {
+    color: var(--accent-green);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
 }
 
-/* Responsive typography */
-@media (max-width: 479px) {
-    body {
-        font-size: 14px;
-    }
+.social-links li a strong {
+    color: var(--text-main);
+    font-size: 1rem;
 }
 
-@media (min-width: 480px) and (max-width: 767px) {
-    body {
-        font-size: 15px;
-    }
+.social-links li a:hover {
+    border-color: var(--accent-green);
+    transform: translateX(5px);
+    background: #232326;
 }
 
-@media (min-width: 768px) {
-    body {
-        font-size: 16px;
-    }
+/* --- Availability Banner --- */
+.availability-banner {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
 }
 
-/* Ensure content doesn't overflow on small screens */
-@media (max-width: 479px) {
-    main {
-        padding: 0 0.5em;
-    }
+.availability-pill {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px var(--accent-green);
+    animation: pulse 2s infinite;
+}
 
-    .typewriter {
-        white-space: normal;
-        overflow: visible;
-        line-height: 1.4;
-    }
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
 
-    .typewriter-text {
-        white-space: normal;
+/* --- Ambient Effects --- */
+.ambient {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(0, 255, 65, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+.ambient-one { top: -10%; left: -10%; }
+.ambient-two { bottom: -10%; right: -10%; }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    .portal-card {
+        padding: 20px;
+    }
+    .availability-banner {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
     }
 }
