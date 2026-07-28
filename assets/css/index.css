@@ -258,3 +258,33 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+/* --- Contact page --- */
+.contact-page { padding-top: 32px; }
+.contact-card { max-width: 760px; }
+.back-link { display: inline-flex; color: var(--text-dim); font: 500 0.78rem 'IBM Plex Mono', monospace; text-decoration: none; transition: color 0.2s ease; }
+.back-link:hover, .back-link:focus-visible { color: var(--accent-bright); }
+.contact-card > .eyebrow { margin: 34px 0 10px; }
+.contact-card h1 { max-width: 500px; }
+.contact-lead { max-width: 610px; margin: 14px 0 24px; color: var(--text-dim); font-size: 1.04rem; }
+.contact-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 18px; margin-bottom: 30px; color: var(--text-dim); font: 0.77rem 'IBM Plex Mono', monospace; }
+.email-button, .copy-key { border: 1px solid rgba(116, 230, 162, 0.42); border-radius: 8px; background: var(--accent-green); color: #092016; font: 600 0.8rem 'Space Grotesk', sans-serif; text-decoration: none; cursor: pointer; padding: 11px 14px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.email-button:hover, .copy-key:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(116, 230, 162, 0.18); }
+.email-button:focus-visible, .copy-key:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
+.pgp-panel { border: 1px solid var(--border-color); border-radius: 14px; background: rgba(255, 255, 255, 0.025); padding: 24px; }
+.section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.section-heading .eyebrow { margin-bottom: 5px; font-size: 0.66rem; }
+.section-heading h2 { font-size: 1.2rem; letter-spacing: -0.02em; }
+.copy-key { flex: 0 0 auto; background: transparent; color: var(--accent-bright); padding: 8px 11px; }
+.pgp-note { margin: 12px 0 15px; color: var(--text-dim); font-size: 0.88rem; }
+.pgp-key { display: block; width: 100%; min-height: 150px; padding: 16px; resize: vertical; overflow: auto; border: 1px solid rgba(116, 230, 162, 0.2); border-radius: 8px; background: #07130f; color: #b9f6cf; font: 0.75rem/1.65 'IBM Plex Mono', monospace; }
+.pgp-key:focus { outline: 2px solid rgba(183, 255, 208, 0.7); outline-offset: 2px; }
+.key-warning { margin-top: 10px; color: #d5ba7b; font-size: 0.76rem; }
+.contact-footnote { margin-top: 22px; color: #788a7e; font-size: 0.78rem; }
+
+@media (max-width: 700px) {
+    .contact-page { padding-top: 18px; }
+    .pgp-panel { padding: 18px; }
+    .section-heading { align-items: center; }
+    .pgp-key { font-size: 0.68rem; }
+}
