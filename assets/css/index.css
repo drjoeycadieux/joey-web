@@ -1,11 +1,12 @@
 /* --- Root Variables & Reset --- */
 :root {
-    --bg-dark: #0a0a0b;
-    --card-bg: #141416;
-    --accent-green: #00ff41; /* Classic terminal green */
-    --text-main: #e4e4e7;
-    --text-dim: #a1a1aa;
-    --border-color: #27272a;
+    --bg-dark: #07100e;
+    --card-bg: rgba(14, 25, 22, 0.9);
+    --accent-green: #74e6a2;
+    --accent-bright: #b7ffd0;
+    --text-main: #f1f6f2;
+    --text-dim: #a4b5aa;
+    --border-color: rgba(170, 210, 184, 0.15);
 }
 
 * {
@@ -15,7 +16,7 @@
 }
 
 body {
-    background-color: var(--bg-dark);
+    background: radial-gradient(circle at 50% -20%, #193a2b 0, transparent 37%), var(--bg-dark);
     color: var(--text-main);
     font-family: 'Space Grotesk', sans-serif;
     line-height: 1.6;
@@ -29,26 +30,55 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 48px 24px 32px;
     position: relative;
 }
 
 .portal-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 40px;
-    max-width: 600px;
+    border-radius: 20px;
+    padding: 22px 46px 46px;
+    max-width: 650px;
     width: 100%;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
     z-index: 10;
     position: relative;
+}
+
+.portal-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(183, 255, 208, 0.36), transparent 35%, transparent 70%, rgba(116, 230, 162, 0.2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.card-topline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font: 500 0.69rem/1.2 'IBM Plex Mono', monospace;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.location-tag {
+    margin-left: auto;
+    color: #708177;
 }
 
 /* --- Professional Header --- */
 .hero {
     text-align: center;
-    margin-bottom: 30px;
+    margin: 34px 0 28px;
 }
 
 .eyebrow {
@@ -57,19 +87,20 @@ body {
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 2px;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .hero img {
-    width: 100px;
-    height: 100px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
-    border: 2px solid var(--accent-green);
-    margin-bottom: 20px;
+    border: 1px solid rgba(183, 255, 208, 0.5);
+    box-shadow: 0 0 0 8px rgba(116, 230, 162, 0.07), 0 12px 30px rgba(0, 0, 0, 0.3);
+    margin-bottom: 18px;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2.4rem, 6vw, 3.25rem);
     font-weight: 700;
     letter-spacing: -1px;
 }
@@ -77,36 +108,39 @@ h1 {
 .typewriter-text {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 1rem;
-    color: var(--text-dim);
+    color: #b9c8bf;
     font-weight: 400;
     margin-top: 10px;
 }
 
 /* --- Rate Card Section --- */
 .service-details {
-    margin: 30px 0;
+    margin: 0 0 30px;
     text-align: center;
 }
 
 .rate-card {
-    display: inline-block;
-    background: rgba(0, 255, 65, 0.05);
-    border: 1px dashed var(--accent-green);
-    padding: 15px 30px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(116, 230, 162, 0.08);
+    border: 1px solid rgba(116, 230, 162, 0.24);
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    text-align: left;
 }
 
 .rate-card .label {
     display: block;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.7rem;
-    color: var(--accent-green);
+    color: #9ab5a3;
     text-transform: uppercase;
 }
 
 .rate-card .price {
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: #ffffff;
     font-family: 'IBM Plex Mono', monospace;
@@ -114,62 +148,66 @@ h1 {
 
 .intro {
     color: var(--text-dim);
-    font-size: 0.95rem;
+    font-size: 1rem;
+    max-width: 510px;
+    margin: 0 auto;
 }
 
 /* --- Navigation Links --- */
 .social-links {
     list-style: none;
     display: grid;
-    gap: 12px;
+    gap: 9px;
 }
 
 .social-links li a {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 14px;
     text-decoration: none;
-    padding: 15px;
-    background: #1c1c1f;
+    padding: 13px 15px;
+    background: rgba(255, 255, 255, 0.025);
     border: 1px solid var(--border-color);
+    border-radius: 10px;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.link-mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--accent-bright);
+    background: rgba(116, 230, 162, 0.1);
+    border: 1px solid rgba(116, 230, 162, 0.16);
     border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.social-links li a span {
-    color: var(--accent-green);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 500;
 }
 
+.link-copy { display: flex; flex-direction: column; gap: 1px; }
 .social-links li a strong {
     color: var(--text-main);
-    font-size: 1rem;
+    font-size: 0.98rem;
+    font-weight: 500;
 }
+.social-links li a small { color: var(--text-dim); font-size: 0.78rem; }
+.arrow { margin-left: auto; color: #88a494; font-size: 1.05rem; transition: transform 0.2s ease; }
 
 .social-links li a:hover {
-    border-color: var(--accent-green);
-    transform: translateX(5px);
-    background: #232326;
+    border-color: rgba(116, 230, 162, 0.58);
+    transform: translateY(-2px);
+    background: rgba(116, 230, 162, 0.08);
 }
+.social-links li a:hover .arrow { transform: translate(2px, -2px); color: var(--accent-bright); }
+.social-links li a:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
 
 /* --- Availability Banner --- */
-.availability-banner {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 10px 15px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.8rem;
-}
-
 .availability-pill {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     background: var(--accent-green);
     border-radius: 50%;
     display: inline-block;
@@ -188,21 +226,35 @@ h1 {
     position: absolute;
     width: 40vw;
     height: 40vw;
-    background: radial-gradient(circle, rgba(0, 255, 65, 0.03) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(116, 230, 162, 0.08) 0%, transparent 70%);
     pointer-events: none;
 }
 .ambient-one { top: -10%; left: -10%; }
 .ambient-two { bottom: -10%; right: -10%; }
 
 /* --- Mobile Responsiveness --- */
-@media (max-width: 600px) {
+/* --- Framing and footer --- */
+.side-design { position: fixed; top: 0; width: 58px; height: 100%; pointer-events: none; opacity: 0.12; z-index: 1; }
+.left-node { left: 0; border-right: 1px solid var(--accent-green); background-image: radial-gradient(var(--accent-green) 1px, transparent 1px); background-size: 16px 16px; }
+.right-node { right: 0; border-left: 1px solid var(--accent-green); background: repeating-linear-gradient(0deg, transparent, transparent 21px, rgba(116, 230, 162, 0.25) 22px); }
+.terminal-footer { margin-top: 25px; width: 100%; max-width: 650px; text-align: center; font-family: 'IBM Plex Mono', monospace; z-index: 10; }
+.footer-divider { height: 1px; width: 100%; background: linear-gradient(90deg, transparent, var(--border-color), transparent); margin-bottom: 18px; }
+.footer-content { display: flex; flex-direction: column; gap: 6px; }
+.footer-status { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.65rem; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.08em; }
+.status-indicator { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
+.copyright { font-size: 0.75rem; color: var(--text-dim); }
+.location { font-size: 0.65rem; color: #66756c; }
+
+@media (max-width: 700px) {
     .portal-card {
-        padding: 20px;
+        padding: 20px 20px 28px;
     }
-    .availability-banner {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin-bottom: 20px;
-    }
+    .portal-page { padding: 20px 14px 28px; }
+    .location-tag { display: none; }
+    .hero { margin: 28px 0 24px; }
+    .typewriter { white-space: normal; }
+    .rate-card { gap: 10px; padding: 11px 13px; }
+    .side-design { display: none; }
 }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
