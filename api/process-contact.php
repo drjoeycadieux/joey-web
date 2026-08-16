@@ -51,43 +51,27 @@ if (strlen($name) > 100 || strlen($email) > 255 || strlen($subject) > 200 || str
 }
 
 try {
-    // Database connection - Update credentials and host as needed
-    $db_host = getenv('DB_HOST') ?: 'localhost';
-    $db_user = getenv('DB_USER') ?: 'admin';
-    $db_pass = getenv('DB_PASS') ?: '@Wteamred900';
-    $db_name = 'contact_db';
-
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-    // Check connection
-    if ($conn->connect_error) {
-        throw new Exception('Database connection failed: ' . $conn->connect_error);
-    }
-
-    // Set charset to UTF-8
-    $conn->set_charset('utf8mb4');
-
-    // Prepare statement
-    $stmt = $conn->prepare('INSERT INTO contacts (name, email, subject, message, status, created_at, updated_at) 
-                            VALUES (?, ?, ?, ?, ?, NOW(), NOW())');
-
-    if (!$stmt) {
-        throw new Exception('Statement preparation failed: ' . $conn->error);
-    }
-
-    // Bind parameters
-    // b = blob, s = string, i = integer, d = double
+    // Load database configuration
+    require_once __DIR__ . '/config/database.php';
+    
+    // Get database instance (note: $this is already a Database object from require_once)
+    $db = new Database();
+    
+    // Prepare and execute query
+    $query = 'INSERT INTO contacts (name, email, subject, message, status, created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
+    
     $status = 'new';
-    $stmt->bind_param('sssss', $name, $email, $subject, $message, $status);
-
-    // Execute statement
-    if (!$stmt->execute()) {
-        throw new Exception('Query execution failed: ' . $stmt->error);
-    }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
+    $params = [$name, $email, $subject, $message, $status];
+    
+    // Types: s = string for all parameters
+    $types = 'sssss';
+    
+    // Execute the query
+    $affected_rows = $db->executeUpdate($query, $params, $types);
+    
+    // Disconnect from database
+    $db->disconnect();
 
     // Return success response
     http_response_code(200);
