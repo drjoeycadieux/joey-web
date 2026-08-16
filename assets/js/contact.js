@@ -1,54 +1,66 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contact-form");
     const status = document.getElementById("form-status");
-    const submitButton = form?.querySelector('button[type="submit"]');
-
-    if (!form) {
-        console.error("Contact form not found.");
-        return;
-    }
+    const submitButton = form.querySelector('button[type="submit"]');
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        status.textContent = "";
+        status.textContent = "Sending...";
         status.className = "form-status";
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const subject = document.getElementById("subject").value.trim();
-        const message = document.getElementById("message").value.trim();
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
 
-        if (!name || !email || !message) {
-            status.textContent = "Please complete all required fields.";
-            status.classList.add("error");
-            return;
-        }
-
-        if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.textContent = "Sending...";
-        }
+        const payload = {
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            subject: document.getElementById("subject").value.trim(),
+            message: document.getElementById("message").value.trim()
+        };
 
         try {
             const response = await fetch("/api/contact.php", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    subject: subject,
-                    message: message
-                })
+                body: JSON.stringify(payload)
             });
 
-            const result = await response.json();
+            // IMPORTANT:
+            // Read the response as text first.
+            const responseText = await response.text();
+
+            console.log("HTTP status:", response.status);
+            console.log("PHP response:", responseText);
+
+            // Server returned absolutely nothing
+            if (!responseText.trim()) {
+                throw new Error(
+                    "PHP returned an empty response. HTTP status: " +
+                    response.status
+                );
+            }
+
+            // Convert response to JSON ourselves
+            let result;
+
+            try {
+                result = JSON.parse(responseText);
+            } catch (error) {
+                console.error("Invalid JSON returned by PHP:");
+                console.error(responseText);
+
+                throw new Error(
+                    "PHP did not return valid JSON. Check the browser console."
+                );
+            }
 
             if (!response.ok || !result.success) {
                 throw new Error(
-                    result.message || "Unable to send message."
+                    result.message || "Message could not be sent."
                 );
             }
 
@@ -58,49 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
             form.reset();
 
         } catch (error) {
-
             console.error("Contact form error:", error);
 
-            status.textContent =
-                error.message ||
-                "Unable to send your message. Please try again.";
-
+            status.textContent = error.message;
             status.classList.add("error");
 
         } finally {
-
-            if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.textContent = "Send Message";
-            }
+            submitButton.disabled = false;
+            submitButton.textContent = "Send Message";
         }
     });
-
-    // PGP copy button
-    const copyButton = document.querySelector("[data-copy-key]");
-    const pgpKey = document.getElementById("pgp-key");
-
-    if (copyButton && pgpKey) {
-        copyButton.addEventListener("click", async () => {
-            try {
-                await navigator.clipboard.writeText(
-                    pgpKey.value.trim()
-                );
-
-                const originalText = copyButton.textContent;
-
-                copyButton.textContent = "Copied!";
-
-                setTimeout(() => {
-                    copyButton.textContent = originalText;
-                }, 2000);
-
-            } catch (error) {
-                console.error(
-                    "Unable to copy PGP key:",
-                    error
-                );
-            }
-        });
-    }
 });
