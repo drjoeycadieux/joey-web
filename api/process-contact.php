@@ -1,94 +1,209 @@
 <?php
 /**
- * Contact Form Processor
- * Handles contact form submissions and stores them in the database
- * 
- * Database: contact_db
- * Table: contacts
+ * Contact Form API
  */
 
-// Set response header
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-// Only accept POST requests
+// Handle CORS preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+// Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Method not allowed'
+    ]);
+
     exit;
 }
 
-// Get JSON input
+// Read request body
 $input = file_get_contents('php://input');
+
+if ($input === false || trim($input) === '') {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Empty request body'
+    ]);
+
+    exit;
+}
+
+// Decode JSON
 $data = json_decode($input, true);
 
-// Validate required fields
-if (!isset($data['name']) || !isset($data['email']) || !isset($data['message'])) {
+if (!is_array($data)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid JSON'
+    ]);
+
     exit;
 }
 
-// Sanitize and validate input
-$name = trim($data['name']);
-$email = trim($data['email']);
-$subject = isset($data['subject']) ? trim($data['subject']) : null;
-$message = trim($data['message']);
+// Required fields
+$name = trim((string)($data['name'] ?? ''));
+$email = trim((string)($data['email'] ?? ''));
+$subject = trim((string)($data['subject'] ?? ''));
+$message = trim((string)($data['message'] ?? ''));
 
-// Validate email format
+// Validate required fields
+if ($name === '' || $email === '' || $message === '') {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Name, email and message are required.'
+    ]);
+
+    exit;
+}
+
+// Validate lengths
+if (strlen($name) > 100) {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Name is too long.'
+    ]);
+
+    exit;
+}
+
+if (strlen($email) > 255) {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Email address is too long.'
+    ]);
+
+    exit;
+}
+
+if (strlen($subject) > 200) {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Subject is too long.'
+    ]);
+
+    exit;
+}
+
+if (strlen($message) > 10000) {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Message is too long.'
+    ]);
+
+    exit;
+}
+
+// Validate email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Invalid email address']);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid email address.'
+    ]);
+
     exit;
 }
 
-// Validate field lengths
-if (strlen($name) > 100 || strlen($email) > 255 || strlen($subject) > 200 || strlen($message) < 1) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Invalid field lengths']);
-    exit;
-}
+$db = null;
 
 try {
-    // Load database configuration
-    require_once __DIR__ . '/config/database.php';
-    
-    // Get database instance (note: $this is already a Database object from require_once)
-    $db = new Database();
-    
-    // Prepare and execute query
-    $query = 'INSERT INTO contacts (name, email, subject, message, status, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
-    
+
+    /*
+     * database.php returns a Database object.
+     */
+    $db = require_once __DIR__ . '/../config/database.php';
+
+    $query = "
+        INSERT INTO contacts
+        (
+            name,
+            email,
+            subject,
+            message,
+            status,
+            created_at,
+            updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+    ";
+
     $status = 'new';
-    $params = [$name, $email, $subject, $message, $status];
-    
-    // Types: s = string for all parameters
+
+    $params = [
+        $name,
+        $email,
+        $subject,
+        $message,
+        $status
+    ];
+
     $types = 'sssss';
-    
-    // Execute the query
-    $affected_rows = $db->executeUpdate($query, $params, $types);
-    
-    // Disconnect from database
+
+    $affectedRows = $db->executeUpdate(
+        $query,
+        $params,
+        $types
+    );
+
+    if ($affectedRows !== 1) {
+        throw new Exception(
+            'Database insert did not affect one row.'
+        );
+    }
+
     $db->disconnect();
 
-    // Return success response
     http_response_code(200);
+
     echo json_encode([
         'success' => true,
         'message' => 'Message received successfully. We will review and respond shortly.'
     ]);
 
-} catch (Exception $e) {
-    // Log error for debugging (in production, log to file instead)
-    error_log('Contact form error: ' . $e->getMessage());
+} catch (Throwable $e) {
 
+    if ($db instanceof Database) {
+        $db->disconnect();
+    }
+
+    // Log the real error server-side
+    error_log(
+        'Contact form error: ' .
+        $e->getMessage()
+    );
+
+    // Never expose database credentials/errors to visitor
     http_response_code(500);
+
     echo json_encode([
         'success' => false,
-        'message' => 'An error occurred while processing your message. Please try again later.'
+        'message' => 'Unable to send your message right now. Please try again later.'
     ]);
 }
+
 exit;
-?>

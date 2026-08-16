@@ -1,99 +1,105 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // PGP Key copy functionality
-    const copyButton = document.querySelector('[data-copy-key]');
-    const keyField = document.querySelector('#pgp-key');
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("form-status");
+    const submitButton = form?.querySelector('button[type="submit"]');
 
-    if (copyButton && keyField) {
-        copyButton.addEventListener('click', async () => {
-            const key = keyField.value.trim();
-
-            if (key.includes('PASTE_JOEY_PUBLIC_KEY_HERE')) {
-                copyButton.textContent = 'Add key first';
-                return;
-            }
-
-            try {
-                await navigator.clipboard.writeText(key);
-                copyButton.textContent = 'Copied';
-            } catch (error) {
-                keyField.focus();
-                keyField.select();
-                copyButton.textContent = 'Select & copy';
-            }
-
-            window.setTimeout(() => {
-                copyButton.textContent = 'Copy key';
-            }, 1800);
-        });
+    if (!form) {
+        console.error("Contact form not found.");
+        return;
     }
 
-    // Contact form submission
-    const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        status.textContent = "";
+        status.className = "form-status";
 
-            // Collect form data
-            const formData = new FormData(contactForm);
-            const data = {
-                name: formData.get('name').trim(),
-                email: formData.get('email').trim(),
-                subject: formData.get('subject').trim() || null,
-                message: formData.get('message').trim()
-            };
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const subject = document.getElementById("subject").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-            // Validate required fields
-            if (!data.name || !data.email || !data.message) {
-                formStatus.className = 'form-status error';
-                formStatus.textContent = 'Please fill in all required fields.';
-                return;
-            }
+        if (!name || !email || !message) {
+            status.textContent = "Please complete all required fields.";
+            status.classList.add("error");
+            return;
+        }
 
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                formStatus.className = 'form-status error';
-                formStatus.textContent = 'Please enter a valid email address.';
-                return;
-            }
-
-            // Show loading state
-            formStatus.className = 'form-status loading';
-            formStatus.textContent = 'Sending message...';
-            const submitButton = contactForm.querySelector('button[type="submit"]');
+        if (submitButton) {
             submitButton.disabled = true;
+            submitButton.textContent = "Sending...";
+        }
 
-            try {
-                const response = await fetch('/api/process-contact.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
+        try {
+            const response = await fetch("/api/contact.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                })
+            });
 
-                const result = await response.json();
+            const result = await response.json();
 
-                if (result.success) {
-                    formStatus.className = 'form-status success';
-                    formStatus.textContent = 'Message sent successfully! We\'ll get back to you soon.';
-                    contactForm.reset();
-                    setTimeout(() => {
-                        formStatus.textContent = '';
-                        formStatus.className = 'form-status';
-                    }, 5000);
-                } else {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = result.message || 'Failed to send message. Please try again.';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                formStatus.className = 'form-status error';
-                formStatus.textContent = 'An error occurred. Please try again later.';
-            } finally {
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message || "Unable to send message."
+                );
+            }
+
+            status.textContent = result.message;
+            status.classList.add("success");
+
+            form.reset();
+
+        } catch (error) {
+
+            console.error("Contact form error:", error);
+
+            status.textContent =
+                error.message ||
+                "Unable to send your message. Please try again.";
+
+            status.classList.add("error");
+
+        } finally {
+
+            if (submitButton) {
                 submitButton.disabled = false;
+                submitButton.textContent = "Send Message";
+            }
+        }
+    });
+
+    // PGP copy button
+    const copyButton = document.querySelector("[data-copy-key]");
+    const pgpKey = document.getElementById("pgp-key");
+
+    if (copyButton && pgpKey) {
+        copyButton.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(
+                    pgpKey.value.trim()
+                );
+
+                const originalText = copyButton.textContent;
+
+                copyButton.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copyButton.textContent = originalText;
+                }, 2000);
+
+            } catch (error) {
+                console.error(
+                    "Unable to copy PGP key:",
+                    error
+                );
             }
         });
     }
