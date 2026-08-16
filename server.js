@@ -83,19 +83,25 @@ app.post('/api/process-contact.php', async (req, res) => {
       connection.release();
     }
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('Contact form error:', error.message);
+    console.error('Error code:', error.code);
 
     // Check if it's a database connection error
-    if (error.code === 'PROTOCOL_CONNECTION_LOST' || error.code === 'ER_ACCESS_DENIED_ERROR') {
+    if (error.code === 'PROTOCOL_CONNECTION_LOST' || error.code === 'ER_ACCESS_DENIED_ERROR' || error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+      console.error('Database connection issue. Check:');
+      console.error(`- DB_HOST: ${process.env.DB_HOST}`);
+      console.error(`- DB_USER: ${process.env.DB_USER}`);
+      console.error(`- Is MySQL running?`);
+      
       return res.status(503).json({
         success: false,
-        message: 'Database connection failed. Please ensure the database is running and configured correctly.'
+        message: `Database connection failed: ${error.code}. Ensure MySQL is running at ${process.env.DB_HOST}:3306`
       });
     }
 
     res.status(500).json({
       success: false,
-      message: 'An error occurred while processing your message. Please try again later.'
+      message: `Error: ${error.message}`
     });
   }
 });
