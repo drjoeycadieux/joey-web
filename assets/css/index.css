@@ -282,9 +282,104 @@ h1 {
 .key-warning { margin-top: 10px; color: #d5ba7b; font-size: 0.76rem; }
 .contact-footnote { margin-top: 22px; color: #788a7e; font-size: 0.78rem; }
 
+/* --- Contact Form --- */
+.contact-form {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-main);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-dim);
+    opacity: 0.7;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: rgba(116, 230, 162, 0.54);
+    background: rgba(116, 230, 162, 0.05);
+    box-shadow: 0 0 0 3px rgba(116, 230, 162, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.contact-form button[type="submit"] {
+    width: 100%;
+    padding: 13px 20px;
+    margin-top: 10px;
+}
+
+.contact-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-status {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.4em;
+}
+
+.form-status.success {
+    background: rgba(116, 230, 162, 0.15);
+    color: var(--accent-bright);
+    border: 1px solid rgba(116, 230, 162, 0.4);
+}
+
+.form-status.error {
+    background: rgba(230, 116, 116, 0.15);
+    color: #ff9999;
+    border: 1px solid rgba(230, 116, 116, 0.4);
+}
+
+.form-status.loading {
+    background: rgba(183, 255, 208, 0.1);
+    color: var(--text-dim);
+    border: 1px solid rgba(116, 230, 162, 0.3);
+}
+
 @media (max-width: 700px) {
     .contact-page { padding-top: 18px; }
     .pgp-panel { padding: 18px; }
     .section-heading { align-items: center; }
     .pgp-key { font-size: 0.68rem; }
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px;
+    }
 }

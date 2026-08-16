@@ -27,8 +27,32 @@
             <a class="back-link" href="/index.html">← Back to profile</a>
             <p class="eyebrow">Secure contact channel</p>
             <h1 id="contact-title">Let’s talk security.</h1>
-            <p class="contact-lead">For consulting enquiries, email Joey directly. Use the public key below to encrypt
-                sensitive details before sending them.</p>
+            <p class="contact-lead">For consulting enquiries, use the form below or email Joey directly. Use the public key to encrypt sensitive details before sending them.</p>
+
+            <form id="contact-form" class="contact-form" aria-labelledby="contact-title">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required maxlength="100" placeholder="Your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required maxlength="255" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" maxlength="200" placeholder="What is this about?">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required rows="8" placeholder="Your message here..."></textarea>
+                </div>
+
+                <button type="submit" class="email-button">Send Message</button>
+                <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+            </form>
 
             <div class="contact-actions">
                 <a class="email-button"
