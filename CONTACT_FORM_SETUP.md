@@ -29,11 +29,48 @@ CREATE TABLE contacts (
 ) ENGINE=InnoDB;
 ```
 
-## Configuration
+## Local Development Setup (Node.js)
+
+### 1. Install Dependencies
+```bash
+npm install
+```
+
+### 2. Configure Environment
+Copy `.env.example` to `.env` and update with your database credentials:
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=your_password
+PORT=3000
+```
+
+### 3. Start the Server
+```bash
+npm start
+```
+
+Or for development with auto-reload:
+```bash
+npm run dev
+```
+
+Then visit: `http://localhost:3000/contact.html`
+
+---
+
+## Production Setup (PHP)
+
+### Configuration
 
 The PHP backend (`api/process-contact.php`) reads database credentials from environment variables:
 
-### Environment Variables
+#### Environment Variables
 
 Set these in your hosting environment or `.env` file:
 
@@ -48,14 +85,12 @@ If not set, defaults are:
 - `DB_USER`: root
 - `DB_PASS`: (empty)
 
-### For Local Testing
+### Server Requirements
+- PHP 7.2+
+- MySQL 5.7+ or MariaDB 10.2+
+- Web server (Apache/Nginx) with PHP enabled
 
-If using PHP locally:
-```bash
-php -S localhost:8000
-```
-
-Then visit `http://localhost:8000/contact.html`
+---
 
 ## Form Features
 
@@ -82,19 +117,55 @@ Then visit `http://localhost:8000/contact.html`
 1. **contact.html** - Added contact form with fields matching the database schema
 2. **assets/js/contact.js** - Added form submission handler with validation
 3. **assets/css/index.css** - Added form styling matching the site design
-4. **api/process-contact.php** - Backend handler for database insertion
+4. **api/process-contact.php** - Backend handler for database insertion (PHP version)
+5. **server.js** - Node.js Express backend (for development)
+6. **package.json** - Dependencies and scripts
+7. **.env.example** - Environment configuration template
 
-## Hosting Considerations
+## Troubleshooting
 
-- Ensure PHP is enabled on your web server
-- MySQL/MariaDB database must be accessible
-- Use HTTPS in production for form security
-- Implement CSRF protection for additional security
-- Consider adding rate limiting to prevent spam
+### Database Connection Error
+- Ensure MySQL is running
+- Check credentials in `.env`
+- Verify `contact_db` database exists
 
-## Error Handling
+### 404 Error on Form Submission
+- Make sure server is running (`npm start`)
+- Check that server is on correct port (default: 3000)
+- Browser console should show the API URL being called
 
-- Form displays user-friendly error messages
-- Backend logs detailed errors for debugging
-- All errors return proper HTTP status codes
-- Database errors don't expose sensitive information to users
+### Form Not Validating
+- Check browser console for JavaScript errors
+- Ensure all fields meet requirements (name, email, message)
+- Email must be in valid format
+
+## Frontend to Backend Communication
+
+The form sends JSON to `/api/process-contact.php`:
+
+**Request:**
+```json
+{
+  "name": "Your Name",
+  "email": "your@email.com",
+  "subject": "Optional subject",
+  "message": "Your message"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "success": true,
+  "message": "Message received successfully...",
+  "id": 1
+}
+```
+
+**Response (Error):**
+```json
+{
+  "success": false,
+  "message": "Error description"
+}
+```
